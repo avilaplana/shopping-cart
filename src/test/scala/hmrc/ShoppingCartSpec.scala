@@ -21,7 +21,7 @@ class ShoppingCartSpec extends AnyFreeSpec with Matchers with TableDrivenPropert
     )
 
   forAll(testCases) { (items, totalCost) =>
-    s"checkout should cost ${totalCost} when the list of items is $items" in {
+    s"checkout should calculate the total cost ${totalCost} when the list of items is $items" in {
       ShoppingCart.checkout(items) shouldBe totalCost
     }
   }

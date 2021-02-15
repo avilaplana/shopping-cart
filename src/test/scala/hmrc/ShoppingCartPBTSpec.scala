@@ -13,7 +13,7 @@ class ShoppingCartPBTSpec extends AnyFreeSpec with Matchers with ScalaCheckDrive
     value <- Gen.chooseNum(0, 100000)
   } yield BigDecimal(value, 2))
 
-  s"checkout should calculate the cost when the list of items is provided" in {
+  s"checkout should calculate the total cost when the list of items is provided" in {
     forAll { items: List[Item] => ShoppingCart.checkout(items) shouldBe calculateCost(items) }
   }
   private def calculateCost(items: List[Item]) = items.map(_.price).sum.print

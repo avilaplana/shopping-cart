@@ -22,7 +22,7 @@ class ShoppingCartWithOffersSpec extends AnyFreeSpec with Matchers with TableDri
     )
 
   forAll(testCases) { (items, totalCost) =>
-    s"checkout should cost ${totalCost} when the list of items is $items" in {
+    s"checkout should calculate the total cost ${totalCost} when the list of items is $items" in {
       ShoppingCartWithOffers.checkout(items) shouldBe totalCost
     }
   }
