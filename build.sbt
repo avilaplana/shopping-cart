@@ -4,8 +4,10 @@ ThisBuild / organization := "uk.gov.hmrc"
 ThisBuild / organizationName := "hmrc"
 
 lazy val scalaTestVersion = "3.2.2"
+lazy val catsVersion      = "2.1.1"
 
 val dependencies = Seq(
+  "org.typelevel" %% "cats-core" % catsVersion,
   "org.scalatest" %% "scalatest" % scalaTestVersion % Test
 )
 
