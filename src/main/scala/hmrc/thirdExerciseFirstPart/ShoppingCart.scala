@@ -1,10 +1,11 @@
-package hmrc
+package hmrc.thirdExerciseFirstPart
 
 import cats.Monoid
-import hmrc.domain2.Item._
-import hmrc.domain2.{Basket, Item, Offer}
+import hmrc.BigDecimalPrinter
+import hmrc.thirdExerciseFirstPart.domain.Item._
+import hmrc.thirdExerciseFirstPart.domain.{Basket, Item, Offer}
 
-object domain2 {
+object domain {
   sealed trait Item {
     def price: BigDecimal
   }
@@ -55,7 +56,7 @@ object domain2 {
   }
 }
 
-object PriceMonoid2 extends Monoid[BigDecimal] {
+object PriceMonoid extends Monoid[BigDecimal] {
   override def empty: BigDecimal                                 = BigDecimal(0)
   override def combine(x: BigDecimal, y: BigDecimal): BigDecimal = x + y
 }
@@ -69,7 +70,7 @@ object BasketMonoid extends Monoid[Basket] {
   )
 }
 
-object ShoppingCartWithOffers2 {
+object ShoppingCartWithOffers {
 
   val appleOffer  = Offer.Buy2Pay1
   val orangeOffer = Offer.Buy3Pay2
@@ -82,7 +83,7 @@ object ShoppingCartWithOffers2 {
     val bananasToPay = bananaOffer.applyTo(basket.bananas)
 
     val totalCost = (applesToPay ++ orangesToPay ++ bananasToPay).foldRight(PriceMonoid.empty) {
-      case (item, priceAcc) => PriceMonoid2.combine(item.price, priceAcc)
+      case (item, priceAcc) => PriceMonoid.combine(item.price, priceAcc)
     }
     totalCost.print
   }

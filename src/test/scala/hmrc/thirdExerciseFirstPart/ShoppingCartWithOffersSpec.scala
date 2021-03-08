@@ -1,11 +1,11 @@
-package hmrc
+package hmrc.thirdExerciseFirstPart
 
-import hmrc.domain2.Item.{Apple, Banana, Orange}
+import hmrc.thirdExerciseFirstPart.domain.Item.{Apple, Banana, Orange}
 import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.prop.TableDrivenPropertyChecks
 
-class ShoppingCartWithOffers2Spec extends AnyFreeSpec with Matchers with TableDrivenPropertyChecks {
+class ShoppingCartWithOffersSpec extends AnyFreeSpec with Matchers with TableDrivenPropertyChecks {
 
   private val testCases =
     Table(
@@ -21,7 +21,7 @@ class ShoppingCartWithOffers2Spec extends AnyFreeSpec with Matchers with TableDr
 
   forAll(testCases) { (items, totalCost) =>
     s"checkout should calculate the total cost ${totalCost} when the list of items is $items" in {
-      ShoppingCartWithOffers2.checkout(items) shouldBe totalCost
+      ShoppingCartWithOffers.checkout(items) shouldBe totalCost
     }
   }
 }
