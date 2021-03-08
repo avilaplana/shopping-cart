@@ -16,7 +16,9 @@ class ShoppingCartWithOffersPBTSpec extends AnyFreeSpec with Matchers with Scala
   implicit val arbItem: Arbitrary[Item] = Arbitrary(Gen.oneOf(Seq(apple, orange)))
 
   s"checkout should calculate the total cost when the list of items is provided" in {
-    forAll { items: List[Item] => ShoppingCartWithOffers.checkout(items) shouldBe calculateCost(items) }
+    forAll(minSuccessful(100)) { items: List[Item] =>
+      ShoppingCartWithOffers.checkout(items) shouldBe calculateCost(items)
+    }
   }
 
   private def calculateCost(items: List[Item]) = {

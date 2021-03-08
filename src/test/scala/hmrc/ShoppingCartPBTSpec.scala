@@ -14,7 +14,7 @@ class ShoppingCartPBTSpec extends AnyFreeSpec with Matchers with ScalaCheckDrive
   } yield BigDecimal(value, 2))
 
   s"checkout should calculate the total cost when the list of items is provided" in {
-    forAll { items: List[Item] => ShoppingCart.checkout(items) shouldBe calculateCost(items) }
+    forAll(minSuccessful(100)) { items: List[Item] => ShoppingCart.checkout(items) shouldBe calculateCost(items) }
   }
   private def calculateCost(items: List[Item]) = items.map(_.price).sum.print
 }

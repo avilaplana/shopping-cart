@@ -80,21 +80,25 @@ object ShoppingCartWithOffers {
     case (item, priceAcc) => PriceMonoid.combine(item.price, priceAcc)
   }
 
+  private def applyCombo(apples: List[Apple.type], bananas: List[Banana.type]): BigDecimal =
+    (apples, bananas) match {
+      case (_ :: _, _ :: _) if Banana.price <= Apple.price =>
+        calculatePrice(appleOffer.applyTo(apples))
+      case (_ :: _, _ :: _) if Banana.price > Apple.price =>
+        calculatePrice(appleOffer.applyTo(bananas))
+      case (Nil, bananas) => calculatePrice(appleOffer.applyTo(bananas))
+      case (apples, Nil)  => calculatePrice(appleOffer.applyTo(apples))
+    }
+
   def checkout(items: List[Item]): String = {
-    val basket       = Basket(items)
-    val applesToPay  = appleOffer.applyTo(basket.apples)
-    val orangesToPay = orangeOffer.applyTo(basket.oranges)
-    val bananasToPay = bananaOffer.applyTo(basket.bananas)
+    val basket                   = Basket(items)
+    val orangesToPay             = orangeOffer.applyTo(basket.oranges)
+    val comboAppleAndBananaPrice = applyCombo(basket.apples, basket.bananas)
 
-    val bananasPrice = calculatePrice(bananasToPay)
-    val applePrice   = calculatePrice(applesToPay)
-
-    val comboAppleAndBananaPrice = if (bananasPrice <= applePrice) applePrice else bananasPrice
-    val totalCost                = calculatePrice(orangesToPay) + comboAppleAndBananaPrice
+    val totalCost = calculatePrice(orangesToPay) + comboAppleAndBananaPrice
     totalCost.print
   }
 }
-
 //• Price of Banana is 20p.
 //• Bananas are on buy one get one offer.
 //• When Bananas are bought together with Apple cheapest one is
