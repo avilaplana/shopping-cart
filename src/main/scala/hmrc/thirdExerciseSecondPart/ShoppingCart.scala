@@ -82,12 +82,13 @@ object ShoppingCartWithOffers {
 
   private def applyCombo(apples: List[Apple.type], bananas: List[Banana.type]): BigDecimal =
     (apples, bananas) match {
-      case (_ :: _, _ :: _) if Banana.price <= Apple.price =>
-        calculatePrice(appleOffer.applyTo(apples))
-      case (_ :: _, _ :: _) if Banana.price > Apple.price =>
-        calculatePrice(appleOffer.applyTo(bananas))
       case (Nil, bananas) => calculatePrice(appleOffer.applyTo(bananas))
       case (apples, Nil)  => calculatePrice(appleOffer.applyTo(apples))
+      case (_, _) if Banana.price <= Apple.price =>
+        calculatePrice(appleOffer.applyTo(apples))
+      case (_, _) if Banana.price > Apple.price =>
+        calculatePrice(appleOffer.applyTo(bananas))
+
     }
 
   def checkout(items: List[Item]): String = {
